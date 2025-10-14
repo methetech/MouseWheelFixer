@@ -6,7 +6,7 @@ We take the security of the Scroll Lock App seriously. If you discover a securit
 
 **Please DO NOT open a public GitHub issue for security vulnerabilities.**
 
-Instead, please report it by sending an email to security@example.com.
+Instead, please report it by sending an email to metheus@yandex.com.
 
 When reporting, please include:
 
