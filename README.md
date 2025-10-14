@@ -1,34 +1,47 @@
 # MouseWheelFixer
 
-An executable version of this software, `wheel.exe`, is available in the main folder. It includes the `mouse.ico` as its icon.
+A lightweight but powerful Windows utility to prevent accidental mouse wheel scrolling and "jitter."
 
-**Important Note:** Due to the nature of how Python scripts are converted into executables, `wheel.exe` may be flagged by antivirus software (such as Windows Defender) as a potential threat. This is often a false positive. If you encounter such a warning, please allow the executable to run or add an exclusion for it in your antivirus settings to use the software.
+An executable version, `wheel.exe`, is available in the main folder.
+
+**Important Note:** Because the application uses a low-level mouse hook to function, some antivirus software may flag it as a potential threat. This is a false positive. Please allow the executable to run or add an exclusion for it in your antivirus settings.
 
 ---
 
-# Scroll Lock Application — Help
+## The Problem: Annoying Mouse Wheel Jitter
 
-This app reduces accidental wheel scrolls by blocking rapid direction changes inside a short time window.
+Have you ever been scrolling through a long document or webpage, only to have the page "jump" back up slightly when you stop?
 
-## Blocking Logic
+This often happens with sensitive or free-spinning mouse wheels. When the wheel comes to a halt, it can physically "bounce" or "jitter," sending one or more scroll events in the opposite direction. This tiny, accidental input is enough to make your view jump, which can be distracting and frustrating.
 
-*   **Block interval (s):** The time window during which opposite-direction wheel events are considered jitter and can be blocked.
-*   **Direction change threshold:** Count of consecutive opposite events required within the interval to accept a deliberate change.
+## How It Works: The Solution
 
-## Application Control
+MouseWheelFixer solves this by intelligently monitoring mouse wheel activity and blocking these accidental "jitter" events.
 
-*   **Blacklist:** Executable names (e.g. `chrome.exe`) where blocking is disabled.
-*   **Add Current App:** Quickly adds the foreground process to the blacklist.
-*   **Start on boot:** Launches the app at Windows startup (with a watchdog).
-*   **Enable Scroll Blocking:** Master switch.
+It works through a simple but effective workflow:
 
-## Visual Feedback
+1.  **Low-Level Mouse Hook**: The application registers a `WH_MOUSE_LL` hook, a feature in Windows that allows it to monitor all low-level mouse events system-wide, specifically looking for `WM_MOUSEWHEEL` messages.
 
-A small “🚫” flashes near your cursor when an event is blocked.
+2.  **Establishing a Direction**: When you scroll, the application notes the direction (up or down) and starts a very short timer, known as the **Block Interval**.
 
-## Watchdog
+3.  **Blocking the Jitter**:
+    *   If you continue scrolling in the **same direction**, the timer simply resets, and scrolling proceeds as normal.
+    *   If a scroll event in the **opposite direction** occurs within the block interval, the application assumes it's an accidental jitter and **blocks it**. This is the core of the fix.
 
-If "Start on boot" is enabled, a detached watchdog will relaunch the app if it dies, ensuring continuity. This can be disabled for development purposes by using the `--no-watchdog` command-line flag.
+4.  **Allowing Deliberate Changes**: What if you *meant* to change direction quickly? That's what the **Direction Change Threshold** is for. This setting defines how many consecutive opposite-direction events are needed to override the block. If you scroll aggressively enough in the new direction, the application recognizes it as a deliberate change, establishes a new scrolling direction, and lets the events pass through.
+
+5.  **Visual Feedback**: Whenever a scroll event is blocked, a small "🚫" indicator flashes near your cursor, giving you clear, immediate feedback that the application is working.
+
+This entire process happens instantly and uses minimal system resources, resulting in a much smoother and more predictable scrolling experience.
+
+## Features
+
+*   **Customizable Blocking Logic**: Fine-tune the `Block Interval` and `Direction Change Threshold` to match your mouse's sensitivity and your personal preference.
+*   **Application Blacklist**: Disable scroll blocking for specific applications (e.g., games, design software) where you need raw, unfiltered mouse input.
+*   **Per-Application Profiles**: Define unique `Interval` and `Threshold` settings for different applications.
+*   **Start on Boot**: Set the application to launch automatically with Windows. When enabled, a watchdog process ensures the app remains running.
+*   **System Tray Control**: The application runs quietly in the system tray. Right-click the icon to access settings, toggle blocking, or exit.
+*   **Visual Indicator**: A customizable overlay that shows you when a scroll event has been blocked.
 
 ## Command-line Arguments
 
