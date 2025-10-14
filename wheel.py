@@ -6,7 +6,7 @@ import sys
 import winreg
 import os
 import subprocess
-
+import logging
 import configparser
 import ctypes
 from ctypes import wintypes
@@ -47,7 +47,7 @@ class IniSettings:
 
     def __init__(self, org_name, app_name):
 
-        self.file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"{app_name}.ini")
+        self.file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config", f"{app_name}.ini")
 
         self.config = configparser.ConfigParser()
 
@@ -761,10 +761,7 @@ class SettingsDialog(QtWidgets.QDialog):
         )
 
     def closeEvent(self, event):
-        # Intercept the close event (e.g., clicking the 'X' button)
-        # Instead of closing, minimize to tray
-        self.minimize_to_tray()
-        event.ignore() # Ignore the close event to prevent actual closing
+        QtWidgets.qApp.quit()
 
     def changeEvent(self, event):
         if event.type() == QtCore.QEvent.WindowStateChange:
@@ -942,11 +939,16 @@ def child_watchdog_process(parent_pid: int):
     while True:
         # Check if the main app initiated a graceful shutdown
         shutdown_memory.lock()
-        buffer = shutdown_memory.data()
-        flag_value = bytes(buffer.data())[0] # Read the first byte
+        ptr = shutdown_memory.constData()
+        if ptr:
+            address = int(ptr)
+            buffer = ctypes.cast(address, ctypes.POINTER(ctypes.c_char))
+            flag_value = buffer[0]
+        else:
+            flag_value = 0
         shutdown_memory.unlock()
 
-        if flag_value == 1: # If the flag is 1 (true)
+        if flag_value == b'\x01': # If the flag is 1 (true)
             print(f"[Watchdog] Parent {parent_pid} gracefully shut down. Exiting watchdog.")
             sys.exit(0)
 
@@ -973,9 +975,11 @@ def main():
         child_watchdog_process(parent_pid)
         return
 
+    logging.info('Creating QApplication')
     app = QtWidgets.QApplication(sys.argv)
 
     settings = Settings()
+    logging.info('Settings loaded')
 
     # Apply global font size
     def apply_global_font():
@@ -984,6 +988,7 @@ def main():
         app.setFont(font)
 
     apply_global_font()
+    logging.info('Font applied')
 
     # Apply modern stylesheet
     app.setStyleSheet("""
@@ -1069,15 +1074,18 @@ def main():
             color: white;
         }
     """)
+    logging.info('Stylesheet applied')
 
     # Single instance guard
     app_id = "ScrollLockApp_SingleInstance"
     shared_memory = QSharedMemory(app_id)
     if not shared_memory.create(1):
+        logging.warning('Another instance is already running')
         QtWidgets.QMessageBox.information(
             None, "Already running", "Another instance of ScrollLockApp is already running."
         )
         sys.exit(0)
+    logging.info('Single instance guard passed')
 
     # Watchdog shutdown flag
     shutdown_flag_id = "ScrollLockApp_ShutdownFlag"
@@ -1089,37 +1097,47 @@ def main():
         buffer = shutdown_memory.data()
         buffer.setData(b'\0') # Clear the flag (set to 0)
         shutdown_memory.unlock()
+        logging.info('Cleared existing shutdown flag')
         # Do NOT detach here. Main app should remain attached.
     else:
         # If it doesn't exist, try to create it
         if not shutdown_memory.create(1): # Create 1 byte for the flag
+            logging.error('Could not create shutdown shared memory')
             print("[Main] Could not create shutdown shared memory. Watchdog shutdown might not work correctly.")
             # Proceed, but log the error. The app might still run, but watchdog shutdown won't be graceful.
+        else:
+            logging.info('Created shutdown shared memory')
 
     # Visual indicator
     indicator = ScrollBlockIndicator(settings)
+    logging.info('Visual indicator created')
 
     # Hook
     hook = MouseHook(settings, indicator)
+    logging.info('Mouse hook created')
 
     # Spawn watchdog if configured
-    if settings.get_startup():
+    if settings.get_startup() and "--no-watchdog" not in sys.argv:
         try:
             subprocess.Popen(
                 [sys.executable, os.path.abspath(__file__), "--watchdog", str(os.getpid())],
                 creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
             )
+            logging.info('Watchdog process spawned')
         except Exception as e:
             # Non-fatal
+            logging.error(f'Watchdog spawn failed: {e}')
             print(f"[Main] Watchdog spawn failed: {e}")
 
     # Start hook thread
     t = threading.Thread(target=hook.start, daemon=True)
     t.start()
+    logging.info('Hook thread started')
 
     # Tray icon + menu
     icon_path = os.path.join(os.path.dirname(__file__), "mouse.ico")
     tray_icon = QtGui.QIcon(icon_path) if os.path.exists(icon_path) else QtGui.QIcon()
+    logging.info('Tray icon loaded')
 
     tray = QtWidgets.QSystemTrayIcon(tray_icon, parent=app)
 
@@ -1128,6 +1146,7 @@ def main():
         tray.setIcon(tray_icon)
 
     update_tray_icon()
+    logging.info('Tray icon updated')
 
     menu = QtWidgets.QMenu()
     act_settings = menu.addAction("Settings")
@@ -1139,10 +1158,12 @@ def main():
     tray.setContextMenu(menu)
     tray.setToolTip("Scroll Lock App")
     tray.show()
+    logging.info('Tray icon shown')
 
     # Settings dialog
     dlg = SettingsDialog(settings, hook, update_tray_icon, apply_global_font, tray)
     act_settings.triggered.connect(dlg.show)
+    logging.info('Settings dialog created')
 
     # [ADDED] Give tray actions What’s This strings (useful if you later expose them in a window)
     act_settings.setWhatsThis("Open the Settings window to configure blocking and UI options.")
@@ -1175,14 +1196,9 @@ def main():
     act_about.triggered.connect(show_about_dialog)
     act_exit.triggered.connect(QtWidgets.qApp.quit)
 
-    # Hide settings on start and show tray message
-    dlg.hide()
-    tray.showMessage(
-        "Scroll Lock App",
-        "Application started and minimized to tray. Click the icon to restore.",
-        tray_icon,
-        2000 # 2 seconds
-    )
+    # Show settings on start
+    dlg.show()
+    logging.info('Settings dialog hidden and tray message shown')
 
     # Restore window on tray icon click
     def restore_window(reason):
@@ -1194,16 +1210,22 @@ def main():
 
     # Persist settings on exit and set shutdown flag
     def on_about_to_quit():
+        logging.info('Application quitting')
         settings.sync()
         # Set the shutdown flag
         if shutdown_memory.isAttached() or shutdown_memory.attach():
             shutdown_memory.lock()
-            buffer = shutdown_memory.data()
-            buffer.setData(b'\x01') # Set the flag to 1 (true)
+            ptr = shutdown_memory.data()
+            if ptr:
+                address = int(ptr)
+                buffer = ctypes.cast(address, ctypes.POINTER(ctypes.c_char))
+                buffer[0] = b'\x01'
             shutdown_memory.unlock()
+            logging.info('Shutdown flag set')
 
     app.aboutToQuit.connect(on_about_to_quit)
 
+    logging.info('Starting event loop')
     sys.exit(app.exec_())
 
 

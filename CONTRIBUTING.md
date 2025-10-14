@@ -48,4 +48,10 @@ We welcome contributions to the Scroll Lock App! Here are some guidelines to hel
 
 To set up your development environment, follow the installation steps in `README.md`.
 
+When running the application for development, it is recommended to use the `--no-watchdog` flag. This will prevent the watchdog from restarting the application if it crashes or is closed.
+
+```bash
+python wheel.py --no-watchdog
+```
+
 Thank you for contributing!
