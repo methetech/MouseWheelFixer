@@ -1,2 +1,15 @@
-# Auto detect text files and perform LF normalization
+# Set the default behavior, in case people don't have core.autocrlf set.
+# This will handle all text files by converting them to LF in the repository
+# and to the native line ending (CRLF on Windows) in the working directory.
 * text=auto
+
+# Explicitly declare text files to ensure they are normalized.
+*.py text
+*.md text
+*.txt text
+.gitignore text
+.gitattributes text
+
+# Declare files that are binary and should be left untouched.
+*.ico binary
+*.jpg binary

@@ -19,6 +19,8 @@ We welcome contributions to the Scroll Lock App! Here are some guidelines to hel
 *   **Check existing suggestions**: See if your idea has already been proposed.
 *   **Describe your idea**: Clearly explain the enhancement and why it would be beneficial.
 
+We also maintain a **[Project Roadmap](ROADMAP.md)** with a list of desired features. If you're looking for ideas on what to contribute, that's a great place to start!
+
 ### Code Contributions
 
 1.  **Fork the repository**.

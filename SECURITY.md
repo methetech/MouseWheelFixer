@@ -15,7 +15,7 @@ When reporting, please include:
 *   The potential impact of the vulnerability.
 *   Any proof-of-concept code or exploits.
 
-We will acknowledge your email within [X] business days and will work to address the vulnerability promptly.
+We will acknowledge your email within 7-14 business days and will work to address the vulnerability promptly.
 
 ## Our Commitment
 

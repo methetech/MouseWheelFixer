@@ -223,7 +223,7 @@ def configure_startup(enable: bool):
     """Create or remove HKCU Run entry for this script."""
     run_key = r"SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
     name = "ScrollLockApp"
-    path = f'{sys.executable} "{os.path.abspath(__file__)}"'
+    path = f'"{os.path.abspath(sys.executable)}" "{os.path.abspath(__file__)}"'
     with winreg.OpenKey(winreg.HKEY_CURRENT_USER, run_key, 0, winreg.KEY_WRITE) as key:
         if enable:
             winreg.SetValueEx(key, name, 0, winreg.REG_SZ, path)
