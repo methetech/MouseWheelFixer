@@ -329,6 +329,7 @@ class MouseHook:
         self.kernel32 = ctypes.windll.kernel32
         self.hook_id = None
         self.hook_cb = None
+        self.thread_id = None
 
     def reload_settings(self, update_tray_icon_callback=None, update_font_callback=None):
         self.block_interval = self.settings.get_interval()
@@ -362,6 +363,7 @@ class MouseHook:
             return False
 
     def start(self):
+        self.thread_id = self.kernel32.GetCurrentThreadId()
         # Callback type: LowLevelMouseProc
         CMPFUNC = ctypes.WINFUNCTYPE(
             ctypes.c_int, ctypes.c_int, wintypes.WPARAM, wintypes.LPARAM
@@ -434,6 +436,14 @@ class MouseHook:
             self.user32.TranslateMessage(ctypes.byref(msg))
             self.user32.DispatchMessageA(ctypes.byref(msg))
 
+
+    def stop(self):
+        if self.hook_id:
+            self.user32.UnhookWindowsHookEx(self.hook_id)
+            self.hook_id = None # Clear the hook ID after unhooking
+        if self.thread_id:
+            # Post a WM_QUIT message to the hook thread to terminate its message loop
+            self.user32.PostThreadMessageW(self.thread_id, win32con.WM_QUIT, 0, 0)
 
 # =============
 # Help Dialog
@@ -666,6 +676,7 @@ def main():
         AboutDialog(dlg).exec_()
 
     def exit_app():
+        hook.stop()
         app.quit()
 
     act_help.triggered.connect(show_help_dialog)
