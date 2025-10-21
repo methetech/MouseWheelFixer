@@ -1,6 +1,6 @@
 # Project Roadmap
 
-This document outlines the future direction and potential features for MouseWheelFixer. It's a living document intended to guide development and inspire contributions. If you're looking for a way to contribute, picking up an item from this list is a great place to start!
+This document outlines the future direction and potential features for WheelScrollFixer. It's a living document intended to guide development and inspire contributions. If you're looking for a way to contribute, picking up an item from this list is a great place to start!
 
 ## Near-Term Goals (Quality of Life & UX)
 

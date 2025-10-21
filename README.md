@@ -1,12 +1,12 @@
-# MouseWheelFixer
+# WheelScrollFixer
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/methetech/MouseWheelFixer?style=for-the-badge)](https://github.com/methetech/MouseWheelFixer/releases)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/methetech/WheelScrollFixer?style=for-the-badge)](https://github.com/methetech/WheelScrollFixer/releases)
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE.md)
 [![Platform](https://img.shields.io/badge/Platform-Windows-0078D6.svg?style=for-the-badge)](https://www.microsoft.com/windows)
 
 A lightweight but powerful Windows utility to prevent accidental mouse wheel scrolling and "jitter."
 
-<img src="MouseWheelFixer.jpg" alt="MouseWheelFixer Settings UI" width="500"/>
+<img src="WheelScrollFixer.jpg" alt="WheelScrollFixer Settings UI" width="500"/>
 
 **Important Note:** Because the application uses a low-level mouse hook to function, some antivirus software may flag it as a potential threat. This is a false positive. Please allow the executable to run or add an exclusion for it in your antivirus settings.
 
@@ -17,8 +17,8 @@ A lightweight but powerful Windows utility to prevent accidental mouse wheel scr
 ### For Users
 
 1.  Go to the project's **Releases Page**.
-2.  Download the `wheel.exe` file from the latest release.
-3.  Run `wheel.exe`.
+2.  Download the `wheel_scroll_fixer.exe` file from the latest release.
+3.  Run `wheel_scroll_fixer.exe`.
 
 ### For Developers
 
@@ -26,8 +26,8 @@ If you want to run or build from source:
 
 1.  **Clone the repository** and navigate into the directory:
     ```bash
-    git clone https://github.com/methetech/MouseWheelFixer.git
-    cd MouseWheelFixer
+    git clone https://github.com/methetech/WheelScrollFixer.git
+    cd WheelScrollFixer
     ```
 
 2.  **Install dependencies** (using a virtual environment is recommended):
@@ -37,13 +37,13 @@ If you want to run or build from source:
 
 3.  **Run from source**:
     ```bash
-    python wheel.py
+    python wheel_scroll_fixer.py
     ```
 
 4.  **Build the executable**:
-    To create the standalone `wheel.exe` file, run the following command:
+    To create the standalone `wheel_scroll_fixer.exe` file, run the following command:
     ```bash
-    pyinstaller --onefile --noconsole wheel.py
+    pyinstaller --onefile --noconsole wheel_scroll_fixer.py
     ```
     The final executable will be located in the `dist` folder.
 
@@ -55,7 +55,7 @@ This often happens with sensitive or free-spinning mouse wheels. When the wheel 
 
 ## How It Works: The Solution
 
-MouseWheelFixer solves this by intelligently monitoring mouse wheel activity and blocking these accidental "jitter" events.
+WheelScrollFixer solves this by intelligently monitoring mouse wheel activity and blocking these accidental "jitter" events.
 
 It works through a simple but effective workflow:
 

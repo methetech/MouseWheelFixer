@@ -34,4 +34,4 @@ def run_with_backoff(target_argv, max_restarts=5, base_delay=1.0, env=None):
 if __name__ == "__main__":
     if os.environ.get("_MWF_SUPERVISED") == "1":
         sys.exit(0)
-    sys.exit(run_with_backoff([sys.executable, "-m", "MouseWheelFixer.main"]))
+    sys.exit(run_with_backoff([sys.executable, "-m", "wheel_scroll_fixer.main"]))

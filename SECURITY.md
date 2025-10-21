@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-We take the security of the Scroll Lock App seriously. If you discover a security vulnerability, we appreciate your help in disclosing it to us in a responsible manner.
+We take the security of the WheelScrollFixer seriously. If you discover a security vulnerability, we appreciate your help in disclosing it to us in a responsible manner.
 
 **Please DO NOT open a public GitHub issue for security vulnerabilities.**
 
@@ -25,4 +25,4 @@ We are committed to:
 *   Keeping you informed about the progress of your report.
 *   Crediting discoverers for their responsible disclosure (if they wish).
 
-Thank you for helping to keep the Scroll Lock App secure.
+Thank you for helping to keep the WheelScrollFixer secure.

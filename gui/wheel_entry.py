@@ -9,7 +9,7 @@ import atexit
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import QTimer
 
-APP_NAME = "MouseWheelFixer"
+APP_NAME = "WheelScrollFixer"
 
 
 def _install_signal_handlers(app):

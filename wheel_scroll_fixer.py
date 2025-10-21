@@ -1,4 +1,4 @@
-# wheel.py
+# wheel_scroll_fixer.py
 # Complete application with low-level mouse-wheel blocking, settings UI,
 # tray menu, watchdog, single-instance guard, and
 # an About dialog where en.MetheTech.com is a clickable link.
@@ -451,7 +451,7 @@ def main():
 
 
     # Single instance guard
-    app_name = "MouseWheelFixer"
+    app_name = "WheelScrollFixer"
     window_title = "Scroll Lock Settings"
     single_instance = SingleInstance(app_name, window_title)
     if not single_instance.acquire_lock():
@@ -627,7 +627,7 @@ def main():
     menu.addSeparator()
     act_exit = menu.addAction("Exit")
     tray.setContextMenu(menu)
-    tray.setToolTip("Scroll Lock App")
+    tray.setToolTip("WheelScrollFixer")
     tray.show()
     logging.info('Tray icon shown')
 

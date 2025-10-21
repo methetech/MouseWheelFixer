@@ -17,7 +17,7 @@ class HelpDialog(QtWidgets.QDialog):
         text_browser.setOpenExternalLinks(True)
 
         help_content = """
-        <h1>Scroll Lock Application — Help</h1>
+        <h1>WheelScrollFixer — Help</h1>
         <p>This app reduces accidental wheel scrolls by blocking rapid direction changes
         inside a short time window.</p>
 

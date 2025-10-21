@@ -1,4 +1,4 @@
-"""Defines the application context for the Scroll Lock application."""
+"""Defines the application context for the WheelScrollFixer application."""
 
 class AppContext:
     """A class to hold the application context."""

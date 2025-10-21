@@ -13,7 +13,7 @@ def _run():
     try:
         _ = SingleInstance()
     except SingleInstanceError:
-        print("MouseWheelFixer is already running.")
+        print("WheelScrollFixer is already running.")
         return 0  # exit 0 so supervisor won't relaunch
 
     # Start the real app
@@ -25,6 +25,6 @@ if __name__ == "__main__":
     if os.environ.get("_MWF_SUPERVISED") != "1":
         # Start under supervisor if not already marked
         from .supervisor import run_with_backoff
-        sys.exit(run_with_backoff([sys.executable, "-m", "MouseWheelFixer.main"]))
+        sys.exit(run_with_backoff([sys.executable, "-m", "wheel_scroll_fixer.main"]))
     else:
         sys.exit(_run())

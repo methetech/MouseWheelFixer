@@ -12,7 +12,7 @@ try:
 except Exception as e:
     raise RuntimeError("This module requires Windows and pywin32 installed.") from e
 
-MUTEX_NAME = r"Global\{A7B7A1E8-6AB9-4E93-8F2A-5F9CD9D1D3C1}_MouseWheelFixer"
+MUTEX_NAME = r"Global\{A7B7A1E8-6AB9-4E93-8F2A-5F9CD9D1D3C1}_WheelScrollFixer"
 
 
 class SingleInstanceError(RuntimeError):

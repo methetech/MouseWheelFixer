@@ -1,4 +1,4 @@
-"""Settings dialog for the Scroll Lock application."""
+"""Settings dialog for the WheelScrollFixer application."""
 import os
 from PyQt5 import QtWidgets, QtGui, QtCore
 import utils
@@ -239,7 +239,7 @@ class SettingsDialog(QtWidgets.QDialog):
         self.hide()
         # Show a message from the tray icon
         self.tray.showMessage(
-            "Scroll Lock App",
+            "WheelScrollFixer",
             "Application minimized to tray. Click the icon to restore.",
             self.app_context.icon,
             2000 # 2 seconds

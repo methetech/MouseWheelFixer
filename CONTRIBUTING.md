@@ -1,6 +1,6 @@
-# Contributing to Scroll Lock App
+# Contributing to WheelScrollFixer
 
-We welcome contributions to the Scroll Lock App! Here are some guidelines to help you get started.
+We welcome contributions to the WheelScrollFixer! Here are some guidelines to help you get started.
 
 ## How to Contribute
 
@@ -53,7 +53,7 @@ To set up your development environment, follow the installation steps in `README
 When running the application for development, it is recommended to use the `--no-watchdog` flag. This will prevent the watchdog from restarting the application if it crashes or is closed.
 
 ```bash
-python wheel.py --no-watchdog
+python wheel_scroll_fixer.py --no-watchdog
 ```
 
 Thank you for contributing!

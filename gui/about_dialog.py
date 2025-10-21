@@ -8,13 +8,13 @@ class AboutDialog(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setStyleSheet(QtWidgets.QApplication.instance().styleSheet())
-        self.setWindowTitle("About Scroll Lock App")
+        self.setWindowTitle("About WheelScrollFixer")
         self.setWindowIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__), "..", "mouse.ico")))
         self.setFixedSize(340, 210)
 
         layout = QtWidgets.QVBoxLayout(self)
 
-        app_name_label = QtWidgets.QLabel("<b>Scroll Lock App</b>")
+        app_name_label = QtWidgets.QLabel("<b>WheelScrollFixer</b>")
         app_name_label.setAlignment(QtCore.Qt.AlignCenter)
         layout.addWidget(app_name_label)
 
