@@ -6,7 +6,7 @@
 
 A lightweight but powerful Windows utility to prevent accidental mouse wheel scrolling and "jitter."
 
-<img src="WheelScrollFixer.jpg" alt="WheelScrollFixer Settings UI" width="500"/>
+<img src="WheelScrollFixer.jpg" alt="WheelScrollFixer Settings UI" width="400"/>
 
 **Important Note:** Because the application uses a low-level mouse hook to function, some antivirus software may flag it as a potential threat. This is a false positive. Please allow the executable to run or add an exclusion for it in your antivirus settings.
 
