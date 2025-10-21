@@ -1,6 +1,6 @@
 # WheelScrollFixer
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/methetech/WheelScrollFixer?style=for-the-badge)](https://github.com/methetech/WheelScrollFixer/releases)
+[![GitHub release (latest by date)]()](https://github.com/methetech/WheelScrollFixer/releases)
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE.md)
 [![Platform](https://img.shields.io/badge/Platform-Windows-0078D6.svg?style=for-the-badge)](https://www.microsoft.com/windows)
 
