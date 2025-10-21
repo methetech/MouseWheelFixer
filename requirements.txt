@@ -1,4 +1,4 @@
-PyQt5
-psutil
-pywin32
+pywin32>=306
+psutil>=5.9
+PyQt5>=5.15
 PyInstaller

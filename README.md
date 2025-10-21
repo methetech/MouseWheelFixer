@@ -69,7 +69,7 @@ It works through a simple but effective workflow:
 
 4.  **Allowing Deliberate Changes**: What if you *meant* to change direction quickly? That's what the **Direction Change Threshold** is for. This setting defines how many consecutive opposite-direction events are needed to override the block. If you scroll aggressively enough in the new direction, the application recognizes it as a deliberate change, establishes a new scrolling direction, and lets the events pass through.
 
-5.  **Visual Feedback**: Whenever a scroll event is blocked, a small "🚫" indicator flashes near your cursor, giving you clear, immediate feedback that the application is working.
+
 
 This entire process happens instantly and uses minimal system resources, resulting in a much smoother and more predictable scrolling experience.
 
@@ -80,8 +80,6 @@ This entire process happens instantly and uses minimal system resources, resulti
 *   **Per-Application Profiles**: Define unique `Interval` and `Threshold` settings for different applications.
 *   **Start on Boot**: Set the application to launch automatically with Windows. When enabled, a watchdog process ensures the app remains running.
 *   **System Tray Control**: The application runs quietly in the system tray. Right-click the icon to access settings, toggle blocking, or exit.
-*   **Visual Indicator**: A customizable overlay that shows you when a scroll event has been blocked.
-
 ## Command-line Arguments
 
 *   `--no-watchdog`: Run the application without the watchdog process. This is useful for development and debugging, as it prevents the application from automatically restarting.
